@@ -91,4 +91,5 @@ Nous décidons d’utiliser **un Singleton** (ex : `Singleton.cs`) pour centrali
 
 - Code : `login.aspx`, `Singleton.cs`
 - Tableau Agile : Epic “Authentification des utilisateurs”
-- Diagrammes (à référencer dans le rapport) : Diagramme de classes (composant Auth), Diagramme de composants
+- Diagrammes (à référencer dans le rapport) : Diagrammes ([Classe](https://github.com/diowte/SoftwareEngineeringDocuments/blob/main/documentation/DiagrammeClasseFCB.drawio))  ,
+- ([composant](https://github.com/diowte/SoftwareEngineeringDocuments/blob/main/documentation/DiagrammeComposantFCB.drawio)) , (([UseCase](https://github.com/diowte/SoftwareEngineeringDocuments/blob/main/documentation/DiagrammeUseCaseFCB.drawio))
