@@ -94,7 +94,18 @@ Certaines fonctionnalités incluent d’autres actions, par exemple :
 - Gérer les rapports inclut le calcul des statistiques des joueurs.
 - Enregistrer un match inclut la mise à jour des statistiques.
 
-Ce diagramme permet de comprendre :
-- Qui utilise le système
-- Quelles actions sont possibles
-- Les dépendances entre les fonctionnalités
+
+##Modification de ADR et SRS
+nous avons modifié le fichier ADR afin de corriger les sections qui n’étaient pas complètes et pour qu’il corresponde mieux à notre projet réel.
+
+Premièrement, nous avons complété la section Contraintes, en ajoutant les contraintes techniques et de temps, comme l’utilisation du langage C#, Visual Studio et ADO.NET, ainsi que le fait que le projet est réalisé par une petite équipe avec un temps limité.
+
+Deuxièmement, nous avons clarifié la décision architecturale, en précisant que nous utilisons une application Desktop avec Windows Forms et ADO.NET, et nous avons expliqué pourquoi ce choix est plus adapté à notre projet, surtout pour faciliter le développement rapide et la gestion de l’interface.
+
+Troisièmement, nous avons ajouté et complété la section Alternatives, en expliquant une autre option possible comme ASP.NET WebForms, avec ses avantages et ses inconvénients, afin de montrer que nous avons analysé d’autres solutions avant de faire notre choix.
+
+Quatrièmement, nous avons complété la section Conséquences, en ajoutant les impacts positifs, comme la simplicité et la rapidité de développement, ainsi que les risques, comme le fait que l’application est limitée à un environnement Windows.
+
+Cinquièmement, nous avons complété la section Validation, en expliquant comment vérifier que la décision fonctionne correctement, par exemple si l’application démarre sans erreur, si l’utilisateur peut se connecter et si les données sont bien récupérées depuis la base de données.
+
+Enfin, nous avons ajouté les liens vers les diagrammes UML et les fichiers du projet, afin que le correcteur puisse facilement comprendre l’architecture et la décision prise.
