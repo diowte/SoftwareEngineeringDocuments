@@ -83,10 +83,10 @@ NFR-4 (Qualité) : Le code doit être structuré et documenté pour faciliter la
 ---
 
 ## 6. Contraintes
-- **C-1 (Technologie) :** <C# / Windows form>
-- **C-2 (Plateforme) :** <web / desktop>
-- **C-3 (Délai) :** <dates de phases>
-- **C-4 (Outils) :** <Git, CI, etc.>
+- **C-1 (Technologie) :** <C# avec ASP.NET et SQL Server>
+- **C-2 (Plateforme) :** < Application Web>
+- **C-3 (Délai) :** < Projet réalisé durant la session Hiver 2026 (15 semaines)>
+- **C-4 (Outils) :** < Visual Studio, GitHub, Draw.io>
 
 ---
 
@@ -94,10 +94,14 @@ NFR-4 (Qualité) : Le code doit être structuré et documenté pour faciliter la
 Entités principales : Club, Joueur, Entraîneur, Entraînement, Présence, StatistiquesJoueur.
 
 Règles métier :
-Un seul club est géré dans l’application.
-Un joueur appartient au club et possède un numéro unique (dans l’effectif).
-Un match contient une date, une heure et un type.
-Les statistiques d’un joueur sont calculées à partir de ses présences (et matchs si ajoutés)..>
+RM-1 : Un seul club est géré dans l’application.
+
+RM-2 : Chaque joueur possède un numéro unique dans l’effectif.
+
+RM-3 : Un match contient une date, une heure et un type.
+
+RM-4 : Le taux de présence est calculé selon la formule :
+(Nombre de présences / Nombre total d’entraînements) × 100.
 
 ---
 
