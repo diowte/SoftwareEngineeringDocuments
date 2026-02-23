@@ -1,80 +1,94 @@
-# Architecture Decision Records ADR-<NN> — <Titre de la décision> 
-**Date :** 2026-01-25 
-**Décideurs :** Ahmad Errekab, Akram Boughlala  
-**Contexte projet :** FCB ClubManager 
----
+# ADR-001 — Authentification centralisée avec Singleton (ASP.NET WebForms)
 
-## 1. Contexte
-- **Problème / besoin :** Le projet nécessite une application permettant de gérer un club de football (joueurs, entraîneurs, entraînements et statistiques) avec une interface simple, incluant la consultation des statistiques d’un joueur par sélection.
-- **Contraintes :** <techniques, temps, équipe, outils>
-- **Forces en présence :** Simplicité de développement, rapidité de mise en œuvre, facilité de maintenance, clarté du code
+Date : 2026-01-25  
+Décideurs : Ahmad Errekab, Akram Boughlala  
+Projet : FCB ClubManager  
 
----
+## 1) Contexte
 
-## 2. Décision
-> Décrire la décision en 1–3 phrases.
-- Nous choisissons : une application Desktop en C# avec Windows Forms, utilisant ADO.NET pour l’accès aux données.
-- Pour : faciliter le développement rapide d’une interface graphique stable, adaptée à un projet 
----
+### Problème / besoin
+Le projet doit gérer une connexion (login) avec deux types d’utilisateurs : **Admin** et **Entraîneur (Coach)**.  
+Après authentification, l’utilisateur doit être redirigé vers le bon tableau de bord (**DashboardAdmin** ou **DashboardCoach**).  
+Nous voulons aussi éviter de dupliquer la logique d’authentification dans plusieurs pages.
 
-## 3. Alternatives considérées
-### Option A — ASP.NET WebForms
-- **Avantages :** Application accessible via navigateur, Technologie connue dans certains cours
-- **Inconvénients :**Développement plus long pour une petite équipe,Debug plus difficile
+### Contraintes
+- Technologie imposée / utilisée : **ASP.NET WebForms (C#)**
+- IDE : **Visual Studio 2022**
+- Équipe : **2 personnes**
+- Délai : **courte période (remise de phase 2)**
+- Objectif qualité : code clair, responsabilités séparées, maintenable
 
-### Option B — <nom>
-- **Avantages :** <...>
-- **Inconvénients :** <...>
+### Forces en présence
+- Réduire la duplication de code
+- Centraliser la vérification des identifiants
+- Garder une logique simple et compréhensible (niveau cours)
 
----
+## 2) Décision
 
-## 4. Justification (Pourquoi cette décision ?)
--Windows Forms permet un développement rapide avec configuration.
--La gestion des événements (clic sur un joueur > affichage des statistiques) est simple.
--L’outil est bien supporté par Visual Studio, utilisé dans le cours.
+Nous décidons d’utiliser **un Singleton** (ex : `Singleton.cs`) pour centraliser la logique d’authentification et la gestion des informations de l’utilisateur connecté (rôle, identifiant, etc.), dans une application **ASP.NET WebForms** (ex : `login.aspx`).
 
----
+## 3) Alternatives considérées
 
-## 5. Conséquences
+### Option A — Authentification directement dans `login.aspx` (code-behind)
+**Avantages**
+- Très rapide à écrire au début
+- Moins de fichiers
+
+**Inconvénients**
+- Logique mélangée à l’interface (faible séparation des responsabilités)
+- Difficile à réutiliser si on ajoute d’autres pages
+- Plus de duplication si on refait la même vérification ailleurs
+
+
+## 4) Justification (Pourquoi cette décision ?)
+
+- Le Singleton permet de **centraliser** la logique d’authentification dans un seul endroit.
+- Il aide à garder `login.aspx` plus simple : la page appelle une méthode de connexion, puis redirige selon le rôle.
+- C’est un **patron de conception clair** à démontrer (exigence du projet : au moins un patron).
+- Avec une petite équipe et un délai court, c’est un compromis simple : **moins de duplication** et plus de clarté.
+
+## 5) Conséquences
+
 ### Positives
-- Développement rapide de l’interface graphique.
-
-Facilité de maintenance et de compréhension du code.
-
-Réduction des risques liés au temps et à la complexité.
+- Une seule source de vérité pour la connexion / rôle
+- Moins de duplication de code
+- Plus facile à faire évoluer (ex : ajouter un nouveau rôle plus tard)
 
 ### Négatives / Risques
-- <...>
+- En Web, un Singleton mal utilisé peut causer des problèmes si on y stocke des données “globales” partagées entre utilisateurs.
+- Risque : mélanger “état utilisateur connecté” et “état global application”.
 
-### Impact sur l’architecture / le code
-- Interface (Forms) > Logique métier → Accès aux données (ADO.NET).
+### Mesure de mitigation (solution)
+- Le Singleton doit contenir **la logique** (ex : valider les identifiants / récupérer le rôle).
+- Les données propres à l’utilisateur connecté (rôle, id) doivent être stockées de façon sûre :  
+  - soit dans `Session`,  
+  - soit via des variables passées/retournées par les méthodes,  
+  - et **pas** comme un état global partagé pour tous.
 
-Utilisation de classes métiers claires (Joueur, Entraîneur, Entraînement, etc.).
+## 6) Impact sur l’architecture / le code
 
----
+- `login.aspx` : interface + appel de la logique de connexion
+- `Singleton.cs` : logique de validation (ex : `Connexion(username, password)`), retour du rôle
+- Redirection :
+  - Admin → `DashboardAdmin.aspx`
+  - Coach → `DashboardCoach.aspx`
 
-## 6. Plan d’implémentation (court)
-- Étape 1 : Création du projet Windows Forms et structure de base.
+## 7) Plan d’implémentation (court)
 
-- Étape 2 : Implémentation des entités métiers et de la base de données.
+1. Créer `login.aspx` + champs username/password + bouton connexion
+2. Créer `Singleton.cs` + méthode d’authentification
+3. Après validation, rediriger vers la page selon le rôle
+4. Ajouter un contrôle minimal : message d’erreur si identifiants invalides
 
-- Étape 3 : Développement des interfaces (liste joueurs, détails joueur, statistiques).
+## 8) Validation (comment vérifier)
 
----
+- Si identifiants corrects Admin → redirection vers Dashboard Admin
+- Si identifiants corrects Coach → redirection vers Dashboard Coach
+- Si identifiants incorrects → message d’erreur affiché, aucune redirection
+- Le code de validation n’est pas dupliqué dans plusieurs pages
 
-## 7. Validation
-- **Comment vérifier que c’est bon ?**
-- L’application démarre sans erreur.
+## 9) Liens
 
-- L’utilisateur peut ajouter des joueurs et les afficher.
-
-- Un clic sur un joueur affiche correctement ses statistiques.
-
-- Les données sont correctement enregistrées en base.
-
----
-
-## 8. Liens
-- UML : <lien/nom de fichier>
-- Issue/Tâche : <lien>
-- Référence : <doc officiel / cours>
+- Code : `login.aspx`, `Singleton.cs`
+- Tableau Agile : Epic “Authentification des utilisateurs”
+- Diagrammes (à référencer dans le rapport) : Diagramme de classes (composant Auth), Diagramme de composants
