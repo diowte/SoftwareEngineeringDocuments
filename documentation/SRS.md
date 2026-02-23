@@ -83,7 +83,7 @@ NFR-4 (Qualité) : Le code doit être structuré et documenté pour faciliter la
 ---
 
 ## 6. Contraintes
-- **C-1 (Technologie) :** <C# avec ASP.NET et SQL Server>
+- **C-1 (Technologie) :** <C# avec Windows Forms ado.netet SQL Server>
 - **C-2 (Plateforme) :** < Application Web>
 - **C-3 (Délai) :** < Projet réalisé durant la session Hiver 2026 (15 semaines)>
 - **C-4 (Outils) :** < Visual Studio, GitHub, Draw.io>
