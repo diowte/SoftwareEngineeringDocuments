@@ -1,7 +1,7 @@
 # Cahier des charges (SRS léger) — <Nom du projet>
 **Équipe :** Ahmad Errekab, Akram Boughlala
 **Date :** 2026.01.25
-**Version :** <v0.1 / v1.0>
+**Version :** v1.0
 
 ---
 
@@ -30,7 +30,13 @@ IN-4 : Création et gestion des entraînements
 IN-6 : Consultation de rapports simples (présence, effectif)
 
 ### 2.2 Exclu (OUT)
-OUT-1 : Gestion de plusieurs clubs- OUT-2 : <...>
+
+OUT-1 : Gestion de plusieurs clubs
+OUT-2 : Gestion financière (salaires, budget, facturation)
+OUT-3 : Application mobile
+OUT-4 : Intégration avec des systèmes externes (fédération, API)
+OUT-5 : Gestion complète des ressources humaines
+OUT-6 : Analyse avancée avec intelligence artificielle
 
 ---
 
